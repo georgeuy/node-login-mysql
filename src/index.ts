@@ -18,6 +18,21 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
+// db conn
+app.use(myconnection(mysql,{
+    host:'localhost',
+    port:3306,
+    user:process.env.MYSQL_PASSWORD ?? 'geo',
+    password:process.env.MYSQL_PASSWORD ?? 'secret',
+    database:'node_login'
+},'pool'));
+
+app.use(session({
+    secret:'secret',
+    resave:true,
+    saveUninitialized:true
+}))
+
 // rutas
 import mainRouter from './routes/main-routes';
 app.use(mainRouter);
